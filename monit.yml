@@ -1,0 +1,43 @@
+---
+ 
+- name: Install Monit
+ 
+  hosts: all
+ 
+  become: yes
+ 
+  become_method: sudo
+ 
+  gather_facts: yes
+ 
+  tags: [install]
+ 
+  tasks:
+ 
+    - name: Update the software package repository
+ 
+      apt:
+ 
+         update_cache: yes
+ 
+    - name: Install monit
+ 
+      package:
+ 
+        name: "{{ item }}"
+ 
+        state: present
+ 
+      with_items:
+ 
+          - net-tools
+
+          - monit
+ 
+    - name: Start monit service
+ 
+      systemd:
+ 
+        name: monit.service
+ 
+        state: started
