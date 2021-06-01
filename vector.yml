@@ -18,9 +18,6 @@
         force: true
       name: "Install vector"
     - 
-      apt: "name=npm state=present"
-      name: "Install npm (Node.js package manager)"
-    - 
       name: "start vector"
       systemd: 
         daemon_reload: true
