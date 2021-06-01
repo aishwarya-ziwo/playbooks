@@ -1,15 +1,30 @@
----
-- hosts: all
-  become: yes
-  tasks:
-    - name: Add key for pcp repository
-      apt_key: url=https://bintray.com/user/downloadSubjectPublicKey?username=netflixoss state=present
+--- 
+- 
+  hosts: all
+  become: true
+  tasks: 
+    - 
+      apt: "name=nodejs state=present"
+      name: "Install Node.js"
+    - 
+      apt: "name=git state=present"
+      name: "Install git"
+    - 
+      apt: "name=npm state=present"
+      name: "Install npm (Node.js package manager)"
+    - 
+      apt: 
+        deb: "https://packages.timber.io/vector/0.6.0/vector-amd64.deb"
+        force: true
+      name: "Install vector"
+    - 
+      apt: "name=npm state=present"
+      name: "Install npm (Node.js package manager)"
+    - 
+      name: "start vector"
+      systemd: 
+        daemon_reload: true
+        enabled: true
+        name: vector
+        state: restarted
 
-    - name: Add pcp repository into sources list.
-      apt_repository: repo='deb https://dl.bintray.com/netflixoss/ubuntu trusty main' state=present
-
-    - name: Install pcp package
-      apt: name=pcp update_cache=yes state=present
-
-    - name: Install pcp-webapi package
-      apt: name=pcp-webapi state=present
